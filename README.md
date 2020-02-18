@@ -1,2 +1,3 @@
 # Computational-Neuroscience
-Some coursework
+Some courseworks
+
