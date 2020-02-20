@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/W32TeX) (preloaded format=pdflatex 2019.11.10)  20 FEB 2020 22:57
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/W32TeX) (preloaded format=pdflatex 2019.11.10)  20 FEB 2020 22:39
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**"c:/Users/91297/iCloudDrive/Syn/Bristol/TB2/Computational Neuroscience/Coursework/Computational-Neuroscience/Yuli Zhi.tex"
-(c:/Users/91297/iCloudDrive/Syn/Bristol/TB2/Computational Neuroscience/Coursework/Computational-Neuroscience/Yuli Zhi.tex
+**"c:/Users/91297/iCloudDrive/Syn/Bristol/TB2/Computational Neuroscience/Coursework/Computational-Neuroscience/coursework1/Yuli Zhi.tex"
+(c:/Users/91297/iCloudDrive/Syn/Bristol/TB2/Computational Neuroscience/Coursework/Computational-Neuroscience/coursework1/Yuli Zhi.tex
 LaTeX2e <2019-10-01> patch level 2
 (c:/texlive/2019/texmf-dist/tex/latex/koma-script/scrartcl.cls
 Document Class: scrartcl 2019/10/12 v3.27 KOMA-Script document class (article)
@@ -321,7 +321,7 @@ File: pgfmodulematrix.code.tex 2019/08/03 v3.1.4b (3.1.4b)
 File: tikzlibrarytopaths.code.tex 2019/08/03 v3.1.4b (3.1.4b)
 )))
 
-c:/Users/91297/iCloudDrive/Syn/Bristol/TB2/Computational Neuroscience/Coursework/Computational-Neuroscience/Yuli Zhi.tex:3: LaTeX Error: Missing \begin{document}.
+c:/Users/91297/iCloudDrive/Syn/Bristol/TB2/Computational Neuroscience/Coursework/Computational-Neuroscience/coursework1/Yuli Zhi.tex:3: LaTeX Error: Missing \begin{document}.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
@@ -413,17 +413,17 @@ Overfull \hbox (40.34164pt too wide) detected at line 7
 
 [1
 
-{c:/texlive/2019/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] (c:/Users/91297/iCloudDrive/Syn/Bristol/TB2/Computational Neuroscience/Coursework/Computational-Neuroscience/Yuli Zhi.aux) ) 
+{c:/texlive/2019/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] (c:/Users/91297/iCloudDrive/Syn/Bristol/TB2/Computational Neuroscience/Coursework/Computational-Neuroscience/coursework1/Yuli Zhi.aux) ) 
 Here is how much of TeX's memory you used:
  14302 strings out of 492164
- 298547 string characters out of 6129087
- 450594 words of memory out of 5000000
+ 298631 string characters out of 6129087
+ 451594 words of memory out of 5000000
  18442 multiletter control sequences out of 15000+600000
  7565 words of font info for 27 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 64i,7n,75p,10194b,414s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 64i,7n,75p,10206b,414s stack positions out of 5000i,500n,10000p,200000b,80000s
 <c:/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb><c:/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb><c:/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on "c:/Users/91297/iCloudDrive/Syn/Bristol/TB2/Computational Neuroscience/Coursework/Computational-Neuroscience/Yuli Zhi.pdf" (1 page, 44835 bytes).
+Output written on "c:/Users/91297/iCloudDrive/Syn/Bristol/TB2/Computational Neuroscience/Coursework/Computational-Neuroscience/coursework1/Yuli Zhi.pdf" (1 page, 48652 bytes).
 PDF statistics:
  31 PDF objects out of 1000 (max. 8388607)
  22 compressed objects within 1 object stream

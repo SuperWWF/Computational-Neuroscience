@@ -72,8 +72,14 @@ def create_W_pattern(X):
     return W
 
 def update_synch(weight,vector,threshold,method):
+    # print("Vector type is :",type(vector))
     time_step = 0
-    times = 100
+    times = 4
+    #Print data:
+    seven_segment(vector)
+    submission.seven_segment(vector)
+    Test_1_Energy = energy(weight,vector)
+    submission.print_number(Test_1_Energy)
     #Run over 
     if method == "RunAll":
         for update_times in range(times):
@@ -98,10 +104,14 @@ def update_synch(weight,vector,threshold,method):
                     vector[update_index] = 1
                 if next_value < 0:
                     vector[update_index] = -1 
-            submission.section("The Step  " + str(update_times+1) + " network")
-            submission.matrix_print("Test Vector",[vector])
+            # submission.section("The Step  " + str(update_times+1) + " network")
+            # submission.matrix_print("Test Vector",[vector])
+            seven_segment(vector)
+            submission.seven_segment(vector)
+            Test_1_Energy = energy(weight,vector)
+            submission.print_number(Test_1_Energy)
             if current_vector == vector:
-                break        
+                return vector,time_step       
     return vector,time_step
 def energy(weight,x):
     x = np.array(x)
@@ -116,8 +126,9 @@ if __name__ == '__main__':
     six=  [1,1,-1,1,1,1,1,-1,1,1,-1] #0110
     three=[1,-1,1,1,-1,1,1,1,1,-1,-1] #0011
     one=  [-1,-1,1,-1,-1,1,-1,1,-1,-1,-1] #0001
-    
-    
+
+    # test1=[1,-1,1,1,-1,1,1,-1,-1,-1,-1]
+    # test2=[1,1,1,1,1,1,1,-1,-1,-1,-1]
     seven_segment(three)
     seven_segment(six)
     seven_segment(one)
@@ -135,23 +146,22 @@ if __name__ == '__main__':
     submission.section("Test 1")
 
     test1=[1,-1,1,1,-1,1,1,-1,-1,-1,-1]
-#    test1=[-1,-1,1,1,-1,1,1,-1,-1,1,1]
     # Updata the net
-    Test_result_1 , Step_1 = update_synch(weight_matrix,test1,0,"RunAll")
+    Test_result_1 , Step_1 = update_synch(weight_matrix,test1,0,"RunStep")
     # Output
-    print("Test_result_1: ", Test_result_1)
-    print("Test_1_Seven_segment show： ")
+    # print("Test_result_1: ", Test_result_1)
+    # print("Test_1_Seven_segment show： ")
     seven_segment(Test_result_1)
-    submission.seven_segment(Test_result_1)
-    ##for COMSM0027
+    # submission.seven_segment(Test_result_1)
+    # for COMSM0027
 
-    ##where energy is the energy of test
-    Test_1_Energy = energy(weight_matrix,test1)
-    submission.print_number(Test_1_Energy)
+    # where energy is the energy of test
+    # Test_1_Energy = energy(weight_matrix,test1)
+    # submission.print_number(Test_1_Energy)
 
     ##this prints a space
     submission.qquad()
-    Test_result_1 , Step_1 = update_synch(weight_matrix,test1,0,"RunStep")
+    # Test_result_1 , Step_1 = update_synch(weight_matrix,test1,0,"RunStep")
     #here the network should run printing at each step
     #for the final submission it should also output to submission on each step
 
@@ -159,25 +169,25 @@ if __name__ == '__main__':
 
     test2=[1,1,1,1,1,1,1,-1,-1,-1,-1]
     submission.section("Test 2")
-    # Updata the net
-    Test_result_2 , Step_2= update_synch(weight_matrix,test2,0,"RunAll")
-    print("Test_result_2: ", Test_result_2)
-    print("Test_2_Seven_segment show： ")
-    print("Test_2_Steps is : ", Step_2)
-    # Output
-    seven_segment(Test_result_2)
-    submission.seven_segment(Test_result_2)
-    
-    ##for COMSM0027
-    ##where energy is the energy of test
-    Test_2_Energy = energy(weight_matrix,test2)
-    submission.print_number(Test_2_Energy)
-
-    ##this prints a space
-    submission.qquad()
+    # # Updata the net
     Test_result_2 , Step_2= update_synch(weight_matrix,test2,0,"RunStep")
-    #here the network should run printing at each step
-    #for the final submission it should also output to submission on each step
+    # print("Test_result_2: ", Test_result_2)
+    # print("Test_2_Seven_segment show： ")
+    # print("Test_2_Steps is : ", Step_2)
+    # # Output
+    seven_segment(Test_result_2)
+    # submission.seven_segment(Test_result_2)
+    
+    # ##for COMSM0027
+    # ##where energy is the energy of test
+    # Test_2_Energy = energy(weight_matrix,test2)
+    # submission.print_number(Test_2_Energy)
+
+    # ##this prints a space
+    # submission.qquad()
+    # Test_result_2 , Step_2= update_synch(weight_matrix,test2,0,"RunStep")
+    # #here the network should run printing at each step
+    # #for the final submission it should also output to submission on each step
 
 
     submission.bottomer()
