@@ -54,10 +54,9 @@ def seven_segment(pattern):
     print(int(number))
 
 def create_W_pattern(X):
-    N = X.shape[1] # Number of Dimensions
-    K = X.shape[0] # Number of Patterns
-    print("W_Pattern_Shape is : ", N, K)
-
+    N = len(X) # Number of Dimensions
+    print("W_Pattern_Shape is : ", N)
+    # print(X)
     W = np.zeros([N,N])
     print("Initial Zeros matrix: " , W)
     for i in range(N):
@@ -65,54 +64,18 @@ def create_W_pattern(X):
             if i == j:
                 W[i,j] = 0
             else:
-                for m in range(K):
-                    W[i,j] += X[m,i] * X[m,j]
-                W[j,i] = W[i,j]  
-    W = W/N
+                W[i,j] = X[i] * X[j]
+                W[j,i] = W[i,j]
     return W
 
-def update_synch(weight,vector,threshold,method):
-    # print("Vector type is :",type(vector))
-    time_step = 0
-    times = 4
-    #Print data:
-    seven_segment(vector)
-    submission.seven_segment(vector)
-    Test_1_Energy = energy(weight,vector)
-    submission.print_number(Test_1_Energy)
-    #Run over 
-    if method == "RunAll":
-        for update_times in range(times):
-            time_step= time_step+1
-            current_vector = vector
-            for update_index in range(len(vector)):
-                next_value = np.dot(weight[update_index][:],vector) - threshold
-                if next_value >= 0 :
-                    vector[update_index] = 1
-                if next_value < 0:
-                    vector[update_index] = -1 
-            if current_vector == vector:
-                break
-    #Run step by step
-    if method == "RunStep":
-        for update_times in range(times):
-            time_step= time_step+1
-            current_vector = vector
-            for update_index in range(len(vector)):
-                next_value = np.dot(weight[update_index][:],vector) - threshold
-                if next_value >= 0 :
-                    vector[update_index] = 1
-                if next_value < 0:
-                    vector[update_index] = -1 
-            # submission.section("The Step  " + str(update_times+1) + " network")
-            # submission.matrix_print("Test Vector",[vector])
-            seven_segment(vector)
-            submission.seven_segment(vector)
-            Test_1_Energy = energy(weight,vector)
-            submission.print_number(Test_1_Energy)
-            if current_vector == vector:
-                return vector,time_step       
-    return vector,time_step
+def update_synch(weight,vector,threshold):
+    for update_index in range(len(vector)):
+        next_value = np.dot(weight[update_index][:],vector) - threshold
+        if next_value > 0 :
+            vector[update_index] = 1
+        else:
+            vector[update_index] = -1    
+    return vector
 def energy(weight,x):
     x = np.array(x)
     Energy = -(x.dot(weight).dot(x.T))/2
@@ -120,8 +83,8 @@ def energy(weight,x):
     return Energy
 # The main function
 if __name__ == '__main__':
-    submission=Submission("Yuli Zhi")
-    submission.header("Yuli Zhi")
+    submission=Submission("Yuli_Zhi")
+    submission.header("Yuli_Zhi")
 
     six=  [1,1,-1,1,1,1,1,-1,1,1,-1] #0110
     three=[1,-1,1,1,-1,1,1,1,1,-1,-1] #0011
@@ -134,9 +97,7 @@ if __name__ == '__main__':
     seven_segment(one)
 
     # Associate the patterns
-    Associate = np.array([six,three,one])
-    print("Associate the patterns is: ", Associate)
-    weight_matrix = create_W_pattern(Associate)
+    weight_matrix = (create_W_pattern(one) + create_W_pattern(three) + create_W_pattern(six))/3.0
     print("Store Patterns is: ", weight_matrix)
     ##this assumes you have called your weight matrix "weight_matrix"
     submission.section("Weight matrix")
@@ -145,13 +106,23 @@ if __name__ == '__main__':
     print("test1")
     submission.section("Test 1")
 
-    test1=[1,-1,1,1,-1,1,1,-1,-1,-1,-1]
+    test1=[1, -1, 1, 1, -1, 1, 1 , -1, -1, -1, -1]
     # Updata the net
-    Test_result_1 , Step_1 = update_synch(weight_matrix,test1,0,"RunStep")
+    vector = np.zeros_like(test1)
+    test_tmp = test1
+    while((vector!=np.array(test1)).all()):
+        seven_segment(test1)
+        submission.seven_segment(test1)
+        Test_1_Energy = energy(weight_matrix,test1)
+        submission.print_number(Test_1_Energy)
+
+        test_tmp = test1
+        test1 = update_synch(weight_matrix,test1,0)
+        vector= test_tmp
     # Output
     # print("Test_result_1: ", Test_result_1)
     # print("Test_1_Seven_segment show： ")
-    seven_segment(Test_result_1)
+    seven_segment(test1)
     # submission.seven_segment(Test_result_1)
     # for COMSM0027
 
@@ -170,12 +141,24 @@ if __name__ == '__main__':
     test2=[1,1,1,1,1,1,1,-1,-1,-1,-1]
     submission.section("Test 2")
     # # Updata the net
-    Test_result_2 , Step_2= update_synch(weight_matrix,test2,0,"RunStep")
+    # Test_result_2 , Step_2= update_synch(weight_matrix,test2,0)
+    vector = np.zeros_like(test2)
+    test_tmp = test2
+    while((vector!=np.array(test2)).all()):
+        seven_segment(test2)
+        submission.seven_segment(test2)
+        Test_2_Energy = energy(weight_matrix,test2)
+        submission.print_number(Test_2_Energy)
+
+        test_tmp = test2
+        test2 = update_synch(weight_matrix,test2,0)
+        vector = test_tmp
     # print("Test_result_2: ", Test_result_2)
     # print("Test_2_Seven_segment show： ")
     # print("Test_2_Steps is : ", Step_2)
     # # Output
-    seven_segment(Test_result_2)
+    seven_segment(test2)
+    submission.qquad()
     # submission.seven_segment(Test_result_2)
     
     # ##for COMSM0027
@@ -188,7 +171,6 @@ if __name__ == '__main__':
     # Test_result_2 , Step_2= update_synch(weight_matrix,test2,0,"RunStep")
     # #here the network should run printing at each step
     # #for the final submission it should also output to submission on each step
-
 
     submission.bottomer()
 
