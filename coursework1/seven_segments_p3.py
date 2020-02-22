@@ -71,18 +71,8 @@ def create_W_pattern(X):
 def update_synch(weight,vector,threshold):
     vector_ = vector
     for update_index in range(len(vector)):
-        # next_value = np.dot(weight[update_index][:],np.array(vector)) - threshold
         next_value = 0
-        for j in range(11):
-            if update_index!=j:
-                # print("VECTOR:j is ",vector[j])
-                # print("WEIGHT:j is ",weight[update_index,j])
-                next_value = next_value + ((vector[j] * weight[update_index,j]))
-        # print("VALUE: ", next_value)
-        # if next_value >= 0 :
-        #     vector_[update_index] = 1
-        # else:
-        #     vector_[update_index] = -1    
+        next_value = np.dot(weight[update_index][:],np.array(vector)) - threshold  
         if np.isclose(next_value,0):
             next_value = 0
         if next_value > 0 :
@@ -90,6 +80,7 @@ def update_synch(weight,vector,threshold):
         else:
             vector_[update_index] = -1            
     return vector_
+
 def energy(weight,x):
     x = np.array(x)
     Energy = -(x.dot(weight).dot(x.T))/2
@@ -99,100 +90,89 @@ def energy(weight,x):
 if __name__ == '__main__':
     submission=Submission("Yuli Zhi")
     submission.header("Yuli Zhi")
-
+# Three patterns to be stored
     six=  [1,1,-1,1,1,1,1,-1,1,1,-1] #0110
     three=[1,-1,1,1,-1,1,1,1,1,-1,-1] #0011
     one=  [-1,-1,1,-1,-1,1,-1,1,-1,-1,-1] #0001
 
-    # test1=[1,-1,1,1,-1,1,1,-1,-1,-1,-1]
-    # test2=[1,1,1,1,1,1,1,-1,-1,-1,-1]
     seven_segment(three)
     seven_segment(six)
     seven_segment(one)
 
-    # Associate the patterns
+# Associate the patterns into a matrix
     weight_matrix = (create_W_pattern(one) + create_W_pattern(three) + create_W_pattern(six))/3.0
     print("Store Patterns is: ", weight_matrix)
-    ##this assumes you have called your weight matrix "weight_matrix"
+    #this assumes you have called your weight matrix "weight_matrix"
     submission.section("Weight matrix")
     submission.matrix_print("W",weight_matrix)
-
+# Test 1 begin
     print("test1")
     submission.section("Test 1")
 
     test1=[1, -1, 1, 1, -1, 1, 1 , -1, -1, -1, -1]
-    print("Test1 vector ", test1)
-    test_tmp1 = test1
-    # Updata the net
     test_tmp1 = np.zeros_like(test1)
-    print(test_tmp1)
-    for times in range(10):
+
+    # Print and Latex
+    seven_segment(test1)
+    submission.seven_segment(test1)
+    # where energy is the energy of test
+    Test_1_Energy = energy(weight_matrix,test1)
+    submission.print_number(Test_1_Energy)
+    submission.qquad()
+
+    # Upate the net
+    for times in range(100):
         print("The number 's iterate: ", times)
+        test1 = update_synch(weight_matrix,test1,0)
+        if (np.array(test_tmp1)==np.array(test1)).all():
+            break
+        # Print and Latex
         seven_segment(test1)
         submission.seven_segment(test1)
         # where energy is the energy of test
         Test_1_Energy = energy(weight_matrix,test1)
         submission.print_number(Test_1_Energy)
-        # 
-        test1 = update_synch(weight_matrix,test1,0)
-        if (np.array(test_tmp1)==np.array(test1)).all():
-            break
-        test_tmp1 = test1
-    seven_segment(test1)
-    submission.seven_segment(test1)
-    Test_1_Energy = energy(weight_matrix,test1)
-    submission.print_number(Test_1_Energy)
+        submission.qquad()
+        # Store for check if stop
+        test_tmp1 = np.array(test1).copy()
+
     submission.qquad()
-    # submission.seven_segment(test1)
-    # for COMSM0027
+# Test 1 end
 
 
-
-    ##this prints a space
-    submission.qquad()
-    # Test_result_1 , Step_1 = update_synch(weight_matrix,test1,0,"RunStep")
-    #here the network should run printing at each step
-    #for the final submission it should also output to submission on each step
-
+# Test 2 begin
     print("test2")
-
-    test2=[1,1,1,1,1,1,1,-1,-1,-1,-1]
-    print("Test2 vector ", test2)
     submission.section("Test 2")
-    # # Updata the net
+    
+    test2=[1,1,1,1,1,1,1,-1,-1,-1,-1]
     test_tmp2 = np.zeros_like(test2)
-    print(test_tmp2)
-    for times in range(3):
-        print("The number 's iterate: ", times)
-        seven_segment(test2)
-        submission.seven_segment(test2)
-        Test_2_Energy = energy(weight_matrix,test2)
-        submission.print_number(Test_2_Energy)
 
-        test2 = update_synch(weight_matrix,test2,0)
-        if (np.array(test_tmp2)==np.array(test2)).all():
-            break
-        test_tmp2 = test2
+
+    # Print and Latex
     seven_segment(test2)
     submission.seven_segment(test2)
+    # where energy is the energy of test
     Test_2_Energy = energy(weight_matrix,test2)
     submission.print_number(Test_2_Energy)
     submission.qquad()
-    # for times in range(100):
-        # test2 = update_synch(weight_matrix,test2,0)
-    # submission.seven_segment(Test_result_2)
     
-    # ##for COMSM0027
-    # ##where energy is the energy of test
-
-
-    # ##this prints a space
-    # submission.qquad()
-    # Test_result_2 , Step_2= update_synch(weight_matrix,test2,0,"RunStep")
-    # #here the network should run printing at each step
-    # #for the final submission it should also output to submission on each step
+    # Upate the net 
+    for times in range(100):
+        print("The number 's iterate: ", times)
+        test2 = update_synch(weight_matrix,test2,0)
+        if (np.array(test_tmp2)==np.array(test2)).all():
+            break
+        #Print and Latex
+        seven_segment(test2)
+        submission.seven_segment(test2)
+        # where energy is the energy of test
+        Test_2_Energy = energy(weight_matrix,test2)
+        submission.print_number(Test_2_Energy)
+        submission.qquad()
+        # Store for check if stop
+        test_tmp2 = np.array(test2).copy()
 
     submission.bottomer()
-
+# Test 2 end
 
 
