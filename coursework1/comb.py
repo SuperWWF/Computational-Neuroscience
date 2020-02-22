@@ -1,162 +1,131 @@
-#for the submission uncomment the submission statements
-#so submission.README
-
 from math import *
 import numpy as np
-from submission import *
 
 def seven_segment(pattern):
-
     def to_bool(a):
-        if a==1:
+        if a == 1:
             return True
         return False
-    
 
     def hor(d):
         if d:
             print(" _ ")
         else:
             print("   ")
-    
-    def vert(d1,d2,d3):
-        word=""
+
+    def vert(d1, d2, d3):
+        word = ""
 
         if d1:
-            word="|"
+            word = "|"
         else:
-            word=" "
-        
+            word = " "
+
         if d3:
-            word+="_"
+            word += "_"
         else:
-            word+=" "
-        
+            word += " "
+
         if d2:
-            word+="|"
+            word += "|"
         else:
-            word+=" "
-        
+            word += " "
+
         print(word)
 
-    
-
-    pattern_b=list(map(to_bool,pattern))
+    pattern_b = list(map(to_bool, pattern))
 
     hor(pattern_b[0])
-    vert(pattern_b[1],pattern_b[2],pattern_b[3])
-    vert(pattern_b[4],pattern_b[5],pattern_b[6])
+    vert(pattern_b[1], pattern_b[2], pattern_b[3])
+    vert(pattern_b[4], pattern_b[5], pattern_b[6])
 
-    number=0
-    for i in range(0,4):
-        if pattern_b[7+i]:
-            number+=pow(2,i)
+    number = 0
+    for i in range(0, 4):
+        if pattern_b[7 + i]:
+            number += pow(2, i)
     print(int(number))
-        
-submission=Submission("Jeffrey_Man_Hong_Chu")
-submission.header("Jeffrey_Man_Hong_Chu")
 
-six=[1,1,-1,1,1,1,1,-1,1,1,-1]
-three=[1,-1,1,1,-1,1,1,1,1,-1,-1]
-one=[-1,-1,1,-1,-1,1,-1,1,-1,-1,-1]
+six = [1, 1, -1, 1, 1, 1, 1, -1, 1, 1, -1]
+three = [1, -1, 1, 1, -1, 1, 1, 1, 1, -1, -1]
+one = [-1, -1, 1, -1, -1, 1, -1, 1, -1, -1, -1]
 
-seven_segment(three)
-seven_segment(six)
-seven_segment(one)
+test1 = [1, -1, 1, 1, -1, 1, 1, -1, -1, -1, -1]
 
-##this assumes you have called your weight matrix "weight_matrix"
-submission.section("Weight matrix")
-def weight_matrix(x):
-    N = len(x)
+#seven_segment(test)
+
+# here the network should run printing at each step
+
+test2 = [1, 1, 1, 1, 1, 1, 1, -1, -1, -1, -1]
+
+#seven_segment(test)
+
+# here the network should run printing at each step
+#Create a weight matrix of wijs.
+
+def createweight(x_vec):
+    N = len(x_vec)
     w = np.zeros([N,N])
     for i in range(N):
         for j in range(i,N):
             if i==j:
                 w[i,j] = 0
             else:
-                w[i,j] = x[i]*x[j]
+                w[i,j] = x_vec[i]*x_vec[j]
                 w[j,i] = w[i,j]
     return w
 
-def update(test,weight):
-    new_test = np.zeros_like(test)
+#MP formula
+def update(test,Weight):
+    test_ = np.zeros_like(test)
     N = len(test)
     m = 0
     for i in range(N):
-            m = np.dot(weight[i][:],test)
+            m = test[i]+np.dot(Weight[i][:],test)
             if m > 0:
-                new_test[i]=1
+                test_[i]=1
             else:
-                new_test[i]=-1
-    return new_test
+                test_[i]=-1
+    #print(test_)
+    return test_
 
-weight = (weight_matrix(one) + weight_matrix(three) + weight_matrix(six)) / 3.0
-print(type(weight))
-submission.matrix_print("W",weight)
+def energy(test,Weight):
+    N = len(test)
+    E = 0
+    for i in range(N):
+       for j in range(N):
+           E = E-test[i]*Weight[i,j]*test[j]/2.0
+    print(E)
+    return E
+
+Weight = (createweight(one) + createweight(three) + createweight(six)) / 3.0
+#print out the energy of the three learned patterns
+print("the energy of the three learned patterns")
+energy(test=one,Weight=Weight)
+energy(test=six,Weight=Weight)
+energy(test=three,Weight=Weight)
 
 print("test1")
-
-submission.section("Test 1")
-
-def is_equal(list_a,list_b):
-
-    equal=True
-
-    for i in range(0,len(list_a)):
-        if list_a[i]!=list_b[i]:
-            equal=False
-
-    return equal
-
-test=[1,-1,1,1,-1,1,1,-1,-1,-1,-1]
-seven_segment(test)
-new_test_copy=[0 for i in range(0,11)]
-#while(np.array(test).all()!=np.array(new_test_copy).all()):
-submission.seven_segment(test)
-while(not is_equal(test,new_test_copy)):
-    new_test_copy = new_test_copy
-    new_test = update(test,weight)
-    test = new_test
-    seven_segment(test) 
-    submission.seven_segment(test)
-##for COMSM0027
-
-
-##where energy is the energy of test
-#submission.print_number(energy)
-
-##this prints a space
-submission.qquad()
-
-#here the network should run printing at each step
-#for the final submission it should also output to submission on each step
-
-
-submission.section("Test 2")
+flag =0
+while(flag <1):
+    a=energy(test=test1,Weight=Weight)
+    b=update(test=test1,Weight=Weight)
+    c=energy(test=b,Weight=Weight)
+    if a-c==0:
+        print(b)
+        flag=0
+    else:
+        flag=2
+seven_segment(b)
 
 print("test2")
-
-test=[1,1,1,1,1,1,1,-1,-1,-1,-1]
-new_test_copy=[0 for i in range(0,11)]
-seven_segment(test)
-#while(np.array(test).all()!=np.array(new_test_copy).all()):
-submission.seven_segment(test)
-while(not is_equal(test,new_test_copy)):
-    new_test_copy = new_test
-    new_test = update(test,weight)
-    test = new_test
-    seven_segment(test)
-    submission.seven_segment(test)
-
-##for COMSM0027
-##where energy is the energy of test
-#submission.print_number(energy)
-
-##this prints a space
-submission.qquad()
-
-#here the network should run printing at each step
-#for the final submission it should also output to submission on each step
-
-
-submission.bottomer()
+flag_=0
+while (flag_ < 1):
+    a_=energy(test=test2,Weight=Weight)
+    b_=update(test=test2,Weight=Weight)
+    c_=energy(test=b_,Weight=Weight)
+    if a_-c_==0:
+        print(b_)
+        flag_=0
+    else:
+        flag_=2
+seven_segment(b_)
