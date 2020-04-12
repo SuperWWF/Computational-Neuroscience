@@ -1,4 +1,3 @@
-
 def load_data(filename,T):
 
     data_array = [T(line.strip()) for line in open(filename, 'r')]
