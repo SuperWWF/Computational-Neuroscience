@@ -1,3 +1,4 @@
+#%%
 import random as rnd
 import numpy as np
 from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
@@ -115,7 +116,7 @@ def MultiSpikeAverage(Spike_Train,Stimulus,interval,adj):
                 interval_counts +=1
                 Sum += Stimulus[index-50:index]
         return Sum/interval_counts
-
+#%%
 Hz=1.0
 sec=1.0
 ms=0.001
@@ -124,64 +125,71 @@ rate=35.0 *Hz
 tau_ref=5*ms
 
 big_t=1000*sec
-# # Question1
-# spike_train_ref =get_spike_train(rate,big_t,tau_ref)
-# spike_train_no_ref =get_spike_train(rate,big_t,0)
+# Question1
+spike_train_ref =get_spike_train(rate,big_t,tau_ref)
+spike_train_no_ref =get_spike_train(rate,big_t,0)
 # print(len(spike_train_ref)/big_t)
 # print(len(spike_train_no_ref)/big_t)
-# windows_10ms = 10*ms
-# windows_50ms = 50*ms
-# windows_100ms =100*ms
-# # ref
-# Fano_10ms_ref = Fano(spike_train_ref,big_t,windows_10ms)
-# Fano_50ms_ref = Fano(spike_train_ref,big_t,windows_50ms)
-# Fano_100ms_ref = Fano(spike_train_ref,big_t,windows_100ms)
-# Cov_ref = Cov(spike_train_ref)
-# print (Cov_ref)
-# # no ref
-# Fano_10ms_no_ref = Fano(spike_train_no_ref,big_t,windows_10ms)
-# Fano_50ms_no_ref = Fano(spike_train_no_ref,big_t,windows_50ms)
-# Fano_100ms_no_ref = Fano(spike_train_no_ref,big_t,windows_100ms)
-# Cov_no_ref = Cov(spike_train_no_ref)
-# # print(Fano_10ms_ref)
-# # print(Fano_10ms_no_ref)
-# print(Cov_no_ref)
+windows_10ms = 10*ms
+windows_50ms = 50*ms
+windows_100ms =100*ms
+# ref
+Fano_10ms_ref = Fano(spike_train_ref,big_t,windows_10ms)
+Fano_50ms_ref = Fano(spike_train_ref,big_t,windows_50ms)
+Fano_100ms_ref = Fano(spike_train_ref,big_t,windows_100ms)
+Cov_ref = Cov(spike_train_ref)
+print("Fano_10ms_ref is: ",Fano_10ms_ref)
+print("Fano_50ms_ref is: ",Fano_50ms_ref)
+print("Fano_100ms_ref is: ",Fano_100ms_ref)
+print ("Cov_ref is: ",Cov_ref)
+# no ref
+Fano_10ms_no_ref = Fano(spike_train_no_ref,big_t,windows_10ms)
+Fano_50ms_no_ref = Fano(spike_train_no_ref,big_t,windows_50ms)
+Fano_100ms_no_ref = Fano(spike_train_no_ref,big_t,windows_100ms)
+Cov_no_ref = Cov(spike_train_no_ref)
+print("Fano_10ms_no_ref is: ",Fano_10ms_no_ref)
+print("Fano_50ms_no_ref is: ",Fano_50ms_no_ref)
+print("Fano_100ms_no_ref is: ",Fano_100ms_no_ref)
+print ("Cov_no_ref is: ",Cov_no_ref)
+#%%
 # Question2
 #spikes=[int(x) for x in load_data("rho.dat")]
 spikes=load_data("d:/Document/GitHub/Computational-Neuroscience/coursework2/rho.dat",int)
-# Fano_Sim_10 = Fano_Sim(spikes,10)
-# Fano_Sim_50 = Fano_Sim(spikes,50)
-# Fano_Sim_100 = Fano_Sim(spikes,100)
-# print("Fano_Sim_10 is",Fano_Sim_10)
-# print("Fano_Sim_50 is",Fano_Sim_50)
-# print("Fano_Sim_100 is",Fano_Sim_100)
-# Cov_Sim_1000s = Cov_Sim(spikes)
-# print("Cov_Sim is: ", Cov_Sim_1000s)
-
+Fano_Sim_10 = Fano_Sim(spikes,10)
+Fano_Sim_50 = Fano_Sim(spikes,50)
+Fano_Sim_100 = Fano_Sim(spikes,100)
+print("Fano_Sim_10 is",Fano_Sim_10)
+print("Fano_Sim_50 is",Fano_Sim_50)
+print("Fano_Sim_100 is",Fano_Sim_100)
+Cov_Sim_1000s = Cov_Sim(spikes)
+print("Cov_Sim is: ", Cov_Sim_1000s)
+#%%
 # Question3
 # plot_acf(spikes,lags=50)
-# X = np.arange(-100,102,2)
-# Y = Acf(spikes)
-# plt.bar(X,Y,width=1)
-# plt.xlabel("interval(ms)")
-# plt.ylabel("AutoCorrelation")
-# plt.title("Autocorrelogram")
-# #plot.acorr(np.array(spikes),usevlines=True, normed=True, maxlags=100)
-# plt.savefig("Autocorrelogram.png")
-# plt.show()
-
+X_in = np.arange(-100,102,2)
+Y_in = Acf(spikes)
+plt.bar(X_in,Y_in,width=1)
+plt.xlabel("interval(ms)")
+plt.ylabel("AutoCorrelation")
+plt.title("Autocorrelogram")
+# plot.acorr(np.array(spikes),usevlines=True, normed=True, maxlags=100)
+plt.savefig("../graphs/Autocorrelogram.png")
+plt.show()
+#%%
 # Question4
 #stimulus=[float(x) for x in load_data("stim.dat")]
 #100ms windwos == 50 points
 stimulus=load_data("d:/Document/GitHub/Computational-Neuroscience/coursework2/stim.dat",float)
-# Y = SpikeAverage(spikes,stimulus)
-# X = np.arange(0,100,2)
-# plt.plot(X,Y)
-# plt.xlabel("time(ms)")
-# plt.ylabel("Average")
-# plt.title("SpikeAverage")
-# plt.savefig("SpikeAverage.png")
-# plt.show()
+Y_aver = SpikeAverage(spikes,stimulus)
+X_aver = np.arange(0,100,2)
+plt.plot(X_aver,Y_aver)
+plt.xlabel("time(ms)")
+plt.ylabel("Average")
+plt.title("SpikeAverage")
+plt.savefig("../graphs/SpikeAverage.png")
+plt.show()
+#%%
+# Question CMOS
 interval_2ms = 1 #2ms
 interval_10ms = 5 #10ms
 interval_20ms = 10 #20ms
@@ -200,6 +208,7 @@ Y_50ms_Non = MultiSpikeAverage(spikes,stimulus,interval_50ms, 'True')
 Y_50ms_adj = MultiSpikeAverage(spikes,stimulus,interval_50ms, 'Flase')
 
 fig,axs = plt.subplots(2,4,sharex='col',sharey='row')
+fig.set_size_inches(18.5, 10.5)
 fig.suptitle("Multi_Spikes_Average")
 axs[0,0].plot(X,Y_2ms_Non)
 axs[0,0].set_title("Interval-2ms-not")
@@ -230,10 +239,12 @@ for ax in axs.flat:
 
 for ax in axs.flat:
     ax.label_outer()
-
-fig.savefig("MultiAverage.png")
+fig.savefig("../graphs/MultiAverage.png")
 plt.show()
 
 
 
 
+
+
+# %%
