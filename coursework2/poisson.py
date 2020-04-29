@@ -166,15 +166,17 @@ print("Cov_Sim is: ", Cov_Sim_1000s)
 #%%
 # Question3
 # plot_acf(spikes,lags=50)
+
 X_in = np.arange(-100,102,2)
 Y_in = Acf(spikes)
+plt.figure()
 plt.bar(X_in,Y_in,width=1)
 plt.xlabel("interval(ms)")
 plt.ylabel("AutoCorrelation")
 plt.title("Autocorrelogram")
 # plot.acorr(np.array(spikes),usevlines=True, normed=True, maxlags=100)
-plt.savefig("../graphs/Autocorrelogram.png")
-plt.show()
+plt.savefig("./graphs/Autocorrelogram.png")
+# plt.show()
 #%%
 # Question4
 #stimulus=[float(x) for x in load_data("stim.dat")]
@@ -182,12 +184,13 @@ plt.show()
 stimulus=load_data("d:/Document/GitHub/Computational-Neuroscience/coursework2/stim.dat",float)
 Y_aver = SpikeAverage(spikes,stimulus)
 X_aver = np.arange(0,100,2)
+plt.figure()
 plt.plot(X_aver,Y_aver)
 plt.xlabel("time(ms)")
 plt.ylabel("Average")
 plt.title("SpikeAverage")
-plt.savefig("../graphs/SpikeAverage.png")
-plt.show()
+plt.savefig("./graphs/SpikeAverage.png")
+# plt.show()
 #%%
 # Question CMOS
 interval_2ms = 1 #2ms
@@ -195,17 +198,17 @@ interval_10ms = 5 #10ms
 interval_20ms = 10 #20ms
 interval_50ms = 25 #50ms
 X = np.arange(0,100,2)
-Y_2ms_Non = MultiSpikeAverage(spikes,stimulus,interval_2ms, 'True')
-Y_2ms_adj = MultiSpikeAverage(spikes,stimulus,interval_2ms, 'Flase')
+Y_2ms_Non = MultiSpikeAverage(spikes,stimulus,interval_2ms, 'Flase')
+Y_2ms_adj = MultiSpikeAverage(spikes,stimulus,interval_2ms, 'True')
 
-Y_10ms_Non = MultiSpikeAverage(spikes,stimulus,interval_10ms, 'True')
-Y_10ms_adj = MultiSpikeAverage(spikes,stimulus,interval_10ms, 'Flase')
+Y_10ms_Non = MultiSpikeAverage(spikes,stimulus,interval_10ms, 'Flase')
+Y_10ms_adj = MultiSpikeAverage(spikes,stimulus,interval_10ms, 'True')
 
-Y_20ms_Non = MultiSpikeAverage(spikes,stimulus,interval_20ms, 'True')
-Y_20ms_adj = MultiSpikeAverage(spikes,stimulus,interval_20ms, 'Flase')
+Y_20ms_Non = MultiSpikeAverage(spikes,stimulus,interval_20ms, 'Flase')
+Y_20ms_adj = MultiSpikeAverage(spikes,stimulus,interval_20ms, 'True')
 
-Y_50ms_Non = MultiSpikeAverage(spikes,stimulus,interval_50ms, 'True')
-Y_50ms_adj = MultiSpikeAverage(spikes,stimulus,interval_50ms, 'Flase')
+Y_50ms_Non = MultiSpikeAverage(spikes,stimulus,interval_50ms, 'Flase')
+Y_50ms_adj = MultiSpikeAverage(spikes,stimulus,interval_50ms, 'True')
 
 fig,axs = plt.subplots(2,4,sharex='col',sharey='row')
 fig.set_size_inches(18.5, 10.5)
@@ -239,7 +242,7 @@ for ax in axs.flat:
 
 for ax in axs.flat:
     ax.label_outer()
-fig.savefig("../graphs/MultiAverage.png")
+fig.savefig("./graphs/MultiAverage.png")
 plt.show()
 
 

@@ -1,6 +1,6 @@
 # Fdb version 3
-["pdflatex"] 1587158624 "d:/Document/GitHub/Computational-Neuroscience/coursework2.tex" "Tmp/coursework2.pdf" "coursework2" 1587158634
-  "Tmp/coursework2.aux" 1587158625 680 f33b879d1ff89a01d4dd01af35243e7f "pdflatex"
+["pdflatex"] 1587742007 "d:/Document/GitHub/Computational-Neuroscience/coursework2.tex" "Tmp/coursework2.pdf" "coursework2" 1587742010
+  "Tmp/coursework2.aux" 1587742009 680 f33b879d1ff89a01d4dd01af35243e7f "pdflatex"
   "c:/texlive/2019/texmf-dist/fonts/map/fontname/texfonts.map" 1573429164 3332 103109f5612ad95229751940c61aada0 ""
   "c:/texlive/2019/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1573427419 1004 54797486969f23fa377b128694d548df ""
   "c:/texlive/2019/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1573427419 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -151,10 +151,10 @@
   "c:/texlive/2019/texmf.cnf" 1573433222 673 4ae7b2f49cee444c5343a45b5d0f169c ""
   "coursework2.tex" 1587158634 2787 d635b66e4fc8b78b2bc642c06a415f62 ""
   "d:/Document/GitHub/Computational-Neuroscience/coursework2.tex" 1587158634 2787 d635b66e4fc8b78b2bc642c06a415f62 ""
-  "graphs/Autocorrelogram.png" 1587113476 10031 1d9bfb6a986e03e4011057053915fd6c ""
-  "graphs/MultiAverage.png" 1587133112 68631 35ee01717720152536597f2811625b0d ""
-  "graphs/SpikeAverage.png" 1587113500 14774 ead7829537fd0bc30153b861c7d32968 ""
+  "graphs/Autocorrelogram.png" 1587742006 16640 fccc16dd2bfa226e3560a5bb4c084c17 ""
+  "graphs/MultiAverage.png" 1587742008 106003 92c776b79085ba88474ce1f3e5f02361 ""
+  "graphs/SpikeAverage.png" 1587742007 24181 19c554088c31b0ff214f3f91a77ab4cb ""
   (generated)
   "Tmp/coursework2.log"
-  "Tmp/coursework2.aux"
   "Tmp/coursework2.pdf"
+  "Tmp/coursework2.aux"

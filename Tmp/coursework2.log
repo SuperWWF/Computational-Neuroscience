@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/W32TeX) (preloaded format=pdflatex 2019.11.10)  17 APR 2020 22:23
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/W32TeX) (preloaded format=pdflatex 2019.11.10)  24 APR 2020 16:26
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -528,16 +528,16 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
  ABD: EveryShipout initializing macros
-<graphs/Autocorrelogram.png, id=4, 433.62pt x 289.08pt>
+<graphs/Autocorrelogram.png, id=4, 462.528pt x 346.896pt>
 File: graphs/Autocorrelogram.png Graphic file (type png)
 <use graphs/Autocorrelogram.png>
 Package pdftex.def Info: graphs/Autocorrelogram.png  used on input line 52.
-(pdftex.def)             Requested size: 284.52756pt x 189.69504pt.
-<graphs/SpikeAverage.png, id=6, 433.62pt x 289.08pt>
+(pdftex.def)             Requested size: 284.52756pt x 213.40593pt.
+<graphs/SpikeAverage.png, id=6, 462.528pt x 346.896pt>
 File: graphs/SpikeAverage.png Graphic file (type png)
 <use graphs/SpikeAverage.png>
 Package pdftex.def Info: graphs/SpikeAverage.png  used on input line 57.
-(pdftex.def)             Requested size: 284.52756pt x 189.69504pt.
+(pdftex.def)             Requested size: 284.52756pt x 213.40593pt.
  [1
 
 {c:/texlive/2019/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./graphs/Autocorrelogram.png>]
@@ -556,7 +556,7 @@ Here is how much of TeX's memory you used:
  1141 hyphenation exceptions out of 8191
  60i,6n,71p,461b,305s stack positions out of 5000i,500n,10000p,200000b,80000s
 <c:/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><c:/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb>
-Output written on Tmp/coursework2.pdf (2 pages, 123681 bytes).
+Output written on Tmp/coursework2.pdf (2 pages, 166586 bytes).
 PDF statistics:
  37 PDF objects out of 1000 (max. 8388607)
  22 compressed objects within 1 object stream
