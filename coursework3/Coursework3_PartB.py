@@ -209,6 +209,120 @@ def Question_2_essential(STDP_Mode,Inuput_Rate):
         # # plt.savefig('./coursework3/graphs/PartB_Question1.png')
         # plt.show()
 
+def Question_3_essential(STDP_Mode,Inuput_Rate):
+    # Question_1()
+    # Units
+        ms = 0.001
+        mv = 0.001
+        MO = 1.0e6
+        nA = 1.0e-9
+        nS = 1.0e-9
+    # Neuron Param
+        tau_m = 10*ms
+        EL = -65*mv
+        V_reset = -65*mv
+        Vth = -50*mv
+        Rm = 100*MO
+        Ie = 0
+        N = 40
+        Recent_Post_Spike = -1000
+    # Synapses
+        tau_s = 2*ms
+        gi = 4*nS
+        ga = 2.08*nS
+        Es = 0
+        Deta_s = 0.5
+        # 40 incoming synapses
+        S = np.zeros(N)
+        # g = np.full(N,gi)
+        # g = np.full((1200005,N),0)
+        # g[0,:] = gi
+        Spikes_Counts = np.zeros(N)
+        Recent_Pre_Spikes = np.zeros(N)
+        Deta_t = 0.25*ms
+        r_ini = Inuput_Rate #15 Hz
+    # SDTP par
+        A_plus = 0.2*nS
+        A_minus = 0.25*nS
+        tau_plus = 20*ms
+        tau_minus = 20*ms
+        # Presynaptic Spike time:
+        # t_pre = 0
+        # Postsynaptic Spike time:
+        # t_post = 0 
+        # Set the SDTP flag:
+        # STDP_Mode = True
+        # STDP_Mode = Flase
+        if STDP_Mode:
+            g = np.full(N,gi)
+        else:
+            g = np.full(N,gi)
+        # print("The g_i is : ",g)
+        # print("The S is : ",S)
+        # Calculate the Time interval
+        Runtime = 300
+        Spike_Average_bin = 10
+        TimeSteps = math.ceil(Runtime/Deta_t)
+        print("TimeSteps: ", TimeSteps)
+        V = []
+        V_old = V_reset
+        print("The g_i is : ",g)
+
+        # Pre-synaptic neurons N:
+        Spike_Count = 0
+        Spike_Average = []
+        g_average = []
+        for t in range(0,TimeSteps):
+            I_s = 0
+            # Apply a possion process use random function
+            # I_s = Rm*(Es - V_old)*np.sum(S*g).all()
+            for it in range(0,40):
+                I_s += Rm*(Es - V_old)*(S[it]*g[it])
+            for i in range(0,40):
+                rand = random.uniform(0,1)
+                # Spike occures
+                if rand < Deta_t*r_ini:
+                    S[i] = S[i] + 0.5
+                    # print("Pre_Spike")
+                    # Spikes_Counts[i] += 1
+                    if STDP_Mode:
+                        # Store the Pre Spike time
+                        Recent_Pre_Spikes[i] = t
+                        STDP_Deta_t = (Recent_Post_Spike - Recent_Pre_Spikes[i])
+                        # if STDP_Deta_t <= 0:
+                        g[i] = g[i] - A_minus * math.exp(-abs((STDP_Deta_t)*Deta_t)/tau_minus)
+                        if g[i] < 0:
+                            g[i] = 0
+                # Spike not occures
+                else:
+                    S[i] = S[i]-S[i]*Deta_t/tau_s
+            # Update The neuron:
+            # Post-Synaptic neurons
+            # I_s = Rm*(Es - V_old)*np.sum(S*g)
+            V_new = V_old + Deta_t*((EL - V_old + Rm*Ie+I_s) / tau_m)
+            # If there is a spike and update the V value
+            if V_new > Vth:
+                V_new = V_reset
+                Recent_Post_Spike = t
+                Spike_Count +=1 
+                # print("Post Spike!!")
+                if STDP_Mode:
+                    for p in range(0,40):
+                        STDP_Deta_t = (Recent_Post_Spike - Recent_Pre_Spikes[i])
+                        # if STDP_Deta_t > 0:
+                        g[p] = g[p] + A_plus * math.exp(-abs((STDP_Deta_t)*Deta_t)/tau_plus)
+                        if g[p] > (4*nS):
+                            g[p] = 4*nS
+            V_old = V_new
+            V.append(V_new)
+            if (t+1)%40000 == 0:
+                Spike_Average.append(Spike_Count/Spike_Average_bin)
+                # print("Spike_Average",Spike_Average)
+                Spike_Count = 0
+            if t > 1080000:
+                g_average.append(np.mean(g))
+        g_average_all = (np.array(g_average)).mean()
+        return g,Spike_Average,g_average_all
 def Question_4_essential(STDP_Mode,B):
     # Question_1()
     # Units
@@ -273,8 +387,8 @@ def Question_4_essential(STDP_Mode,B):
         r_0 = 20 # 20Hz
         # Pre-synaptic neurons N:
         Spike_Count = 0
-        Spike_Average = []
-        g_average = []
+        # Spike_Average = []
+        # g_average = []
         for t in range(0,TimeSteps):
             I_s = 0
             # <r>(t) = <r>0 + B*sin(2*pai*frequency*t)
@@ -321,9 +435,10 @@ def Question_4_essential(STDP_Mode,B):
             V_old = V_new
             V.append(V_new)
             if (t+1)%40000 == 0:
-                Spike_Average.append(Spike_Count/Spike_Average_bin)
-                # print("Spike_Average",Spike_Average)
-                Spike_Count = 0
+                print("Tims is",t/4000)
+            #     Spike_Average.append(Spike_Count/Spike_Average_bin)
+            #     # print("Spike_Average",Spike_Average)
+            #     Spike_Count = 0
             if t > 1079999:
                 if t == 1080000:
                     g_steady = np.array(g)
@@ -331,10 +446,128 @@ def Question_4_essential(STDP_Mode,B):
                     g_steady = np.vstack((g_steady,g))
         g_average_all = g_steady.mean(axis = 0)
         return g_average_all
-
+def COMSM2127(STDP_Mode):
+    # Pre-Setting
+        B = 20 # 20Hz
+    # Units
+        ms = 0.001
+        mv = 0.001
+        MO = 1.0e6
+        nA = 1.0e-9
+        nS = 1.0e-9
+    # Neuron Param
+        tau_m = 10*ms
+        EL = -65*mv
+        V_reset = -65*mv
+        Vth = -50*mv
+        Rm = 100*MO
+        Ie = 0
+        N = 40
+        Recent_Post_Spike = -1200
+    # Synapses
+        tau_s = 2*ms
+        gi = 4*nS
+        ga = 2.08*nS
+        Es = 0
+        Deta_s = 0.5
+        # 40 incoming synapses
+        S = np.zeros(N)
+        Spikes_Counts = np.zeros(N)
+        Recent_Pre_Spikes = np.zeros(N)
+        Deta_t = 0.25*ms
+        # r_ini = Inuput_Rate #15 Hz
+    # SDTP par
+        A_plus = 0.2*nS
+        A_minus = 0.25*nS
+        tau_plus = 20*ms
+        tau_minus = 20*ms
+        if STDP_Mode:
+            g = np.full(N,gi)
+        else:
+            g = np.full(N,gi)
+        # Calculate the Time interval
+        Runtime = 300
+        TimeSteps = math.ceil(Runtime/Deta_t)
+        print("TimeSteps: ", TimeSteps)
+        V = []
+        V_old = V_reset
+        print("The g_i is : ",g)
+        # Question4_Par
+        freq = 10 # 10Hz
+        r_0 = 20 # 20Hz
+        # Pre-synaptic neurons N:
+        Spike_Count = 0
+        example_pre_index = 17
+        Pre_Neuron_Spikes = []
+        Post_Neuron_Spikes = []
+        for t in range(0,TimeSteps):
+            I_s = 0
+            # <r>(t) = <r>0 + B*sin(2*pai*frequency*t)
+            r_ini = r_0 + B * math.sin(2*(math.pi)*freq*((t+1)*Deta_t))
+            # Apply a possion process use random function
+            # I_s = Rm*(Es - V_old)*np.sum(S*g).all()
+            for it in range(0,40):
+                I_s += Rm*(Es - V_old)*(S[it]*g[it])
+            for i in range(0,40):
+                rand = random.uniform(0,1)
+                # Spike occures
+                if rand < Deta_t*r_ini:
+                    S[i] = S[i] + 0.5
+                    # print("Pre_Spike")
+                    # Spikes_Counts[i] += 1
+                    if i == example_pre_index and t > 1079999:
+                        Pre_Neuron_Spikes.append(t+1)
+                    if STDP_Mode:
+                        # Store the Pre Spike time
+                        Recent_Pre_Spikes[i] = t
+                        STDP_Deta_t = (Recent_Post_Spike - Recent_Pre_Spikes[i])
+                        # if STDP_Deta_t <= 0:
+                        g[i] = g[i] - A_minus * math.exp(-abs((STDP_Deta_t)*Deta_t)/tau_minus)
+                        if g[i] < 0:
+                            g[i] = 0
+                # Spike not occures
+                else:
+                    S[i] = S[i]-S[i]*Deta_t/tau_s
+            # Update The neuron:
+        # Post-Synaptic neurons
+            # I_s = Rm*(Es - V_old)*np.sum(S*g)
+            V_new = V_old + Deta_t*((EL - V_old + Rm*Ie+I_s) / tau_m)
+            # If there is a spike and update the V value
+            if V_new > Vth:
+                V_new = V_reset
+                Recent_Post_Spike = t
+                Spike_Count +=1
+                if t > 1079999:
+                    Post_Neuron_Spikes.append(t+1)
+                # print("Post Spike!!")
+                if STDP_Mode:
+                    for p in range(0,40):
+                        STDP_Deta_t = (Recent_Post_Spike - Recent_Pre_Spikes[i])
+                        # if STDP_Deta_t > 0:
+                        g[p] = g[p] + A_plus * math.exp(-abs((STDP_Deta_t)*Deta_t)/tau_plus)
+                        if g[p] > (4*nS):
+                            g[p] = 4*nS
+            V_old = V_new
+            V.append(V_new)
+        
+            # x, y = np.random.randn(2, 100)
+        diff = []
+        for v in Pre_Neuron_Spikes:
+                for k in Post_Neuron_Spikes:
+                    diff.append(int(v-k))
+        print(len(diff))
+        title = "Cross-correlogram (STDP: on)"
+        plt.figure()
+        plt.hist(diff, bins=50, histtype='bar')
+        plt.title(title)
+        plt.ylabel("coefficient")
+        plt.xlabel("0.25ms")
+        # plt.savefig('q4_cross_corr_off')
+        plt.show()        
+        # Calculate the integration
 if __name__ == '__main__':
     # Question2_With_STDP_On
-    T_A = 1
+    T_A = 5
     g_average = []
     STDP_mean_g = 2.0435e-9
     '''
@@ -448,16 +681,16 @@ if __name__ == '__main__':
     plt.show() 
     '''
 
-    
+    ''' 
     # Run input fir rate 10Hz and 20 Hz SDTP On
     rate_1 = 10
     rate_2 = 20
     for average_t in range(0,T_A):
         if average_t == 0:
-            G_rate_1,Spike_Average_on_placeholder,g_average_placeholder= Question_2_essential(True,rate_1)
+            G_rate_1,Spike_Average_on_placeholder,g_average_placeholder= Question_3_essential(True,rate_1)
             G_rate_1 = np.array(G_rate_1)
         else:
-            G_rate_1_T,Spike_Average_on_placeholder,g_average_placeholder= Question_2_essential(True,rate_1)
+            G_rate_1_T,Spike_Average_on_placeholder,g_average_placeholder= Question_3_essential(True,rate_1)
             G_rate_1 = np.vstack((G_rate_1,G_rate_1_T))
     if T_A == 1:
         Gate_1_his_mean = G_rate_1
@@ -469,13 +702,13 @@ if __name__ == '__main__':
     plt.ylabel("Frequency")
     plt.title("Steady-State Synaptic Distribution input rate 10Hz")
     plt.show()
-
+    
     for average_t in range(0,T_A):
         if average_t == 0:
-            G_rate_2,Spike_Average_on_placeholder,g_average_placeholder= Question_2_essential(True,rate_2)
-            G_rate_2 = np.array(Gate_2)
+            G_rate_2,Spike_Average_on_placeholder,g_average_placeholder= Question_3_essential(True,rate_2)
+            G_rate_2 = np.array(G_rate_2)
         else:
-            G_rate_2_T,Spike_Average_on_placeholder,g_average_placeholder= Question_2_essential(True,rate_2)
+            G_rate_2_T,Spike_Average_on_placeholder,g_average_placeholder= Question_3_essential(True,rate_2)
             G_rate_2 = np.vstack((G_rate_2,G_rate_2_T))
     if T_A == 1:
         Gate_2_his_mean = G_rate_2
@@ -487,7 +720,7 @@ if __name__ == '__main__':
     plt.ylabel("Frequency")
     plt.title("Steady-State Synaptic Distribution input rate 20Hz")
     plt.show()
-
+    '''
     
     '''
     # Question 4
@@ -495,6 +728,7 @@ if __name__ == '__main__':
     g_steady_mean = []
     g_steady_deviation = []
     for B_value in B:
+        print("B value is :",B)
         g_steady_t = Question_4_essential(True,B_value)
         g_steady_mean.append(np.mean(g_steady_t))
         g_steady_deviation.append(np.std(g_steady_t))
@@ -505,9 +739,54 @@ if __name__ == '__main__':
     plt.title("The mean and deviation of g_steady")
     plt.xlabel("Mean/Std")
     plt.ylabel("B value")
+    plt.legend()
     # plt.savefig('./coursework3/graphs/PartB_Question2_STDP_Average_Fire_Rate6_times.png')
     plt.show()
+    '''
+    '''
+    # Use the B=0/B=20Hz
+    for average_t in range(0,T_A):
+        if average_t == 0:
+            B_0_hism = Question_4_essential(True,0)
+            B_0_hism = np.array(B_0_hism)
+        else:
+            B_0_hism_T = Question_4_essential(True,0)
+            B_0_hism = np.vstack((B_0_hism,B_0_hism_T))
+    if T_A == 1:
+        B_0_hism = B_0_hism
+    else:
+        B_0_hism_mean = B_0_hism.mean(axis = 0)
 
-    ''' 
+
+    plt.figure()
+    plt.hist(B_0_hism_mean, bins=40, facecolor='r', alpha=1.0)
+    plt.xlabel("Weight")
+    plt.ylabel("Frequency")
+    plt.title("Steady-State Synaptic Distribution with B=0Hz")
+    plt.savefig('./coursework3/graphs/PartB_Questio4_B_0Hz_average.png')
+    # plt.show()
+
+    for average_t in range(0,T_A):
+        if average_t == 0:
+            B_20_hism = Question_4_essential(True,20)
+            B_20_hism = np.array(B_20_hism)
+        else:
+            B_20_hism_T = Question_4_essential(True,20)
+            B_20_hism = np.vstack((B_20_hism,B_20_hism_T))
+    if T_A == 1:
+        B_20_hism = B_20_hism
+    else:
+        B_20_hism_mean = B_20_hism.mean(axis = 0)
+
+
+    plt.figure()
+    plt.hist(B_20_hism_mean, bins=40, facecolor='r', alpha=1.0)
+    plt.xlabel("Weight")
+    plt.ylabel("Frequency")
+    plt.title("Steady-State Synaptic Distribution with B=0Hz")
+    plt.savefig('./coursework3/graphs/PartB_Questio4_B_0Hz_average.png')
+    # plt.show()
+    '''
     # COMSM2127 Question
+    COMSM2127(False)
 # %%
