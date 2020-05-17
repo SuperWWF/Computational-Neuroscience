@@ -448,7 +448,7 @@ def Question_4_essential(STDP_Mode,B):
         return g_average_all
 def COMSM2127(STDP_Mode):
     # Pre-Setting
-        B = 20 # 20Hz
+        B = 0 # 0Hz
     # Units
         ms = 0.001
         mv = 0.001
@@ -463,7 +463,7 @@ def COMSM2127(STDP_Mode):
         Rm = 100*MO
         Ie = 0
         N = 40
-        Recent_Post_Spike = -1200
+        Recent_Post_Spike = -1500
     # Synapses
         tau_s = 2*ms
         gi = 4*nS
@@ -494,12 +494,17 @@ def COMSM2127(STDP_Mode):
         print("The g_i is : ",g)
         # Question4_Par
         freq = 10 # 10Hz
-        r_0 = 20 # 20Hz
+        r_0 = 15 # 20Hz
         # Pre-synaptic neurons N:
         Spike_Count = 0
-        example_pre_index = 17
-        Pre_Neuron_Spikes = []
-        Post_Neuron_Spikes = []
+        # example_pre_index = 17
+        Pre_Neuron_Spikes_20s = []
+        Pre_Neuron_Spikes_200s = []
+        for example in range(0,N,1):
+            Pre_Neuron_Spikes_20s.append([])
+            Pre_Neuron_Spikes_200s.append([])
+        Post_Neuron_Spikes_20s = []
+        Post_Neuron_Spikes_200s = []
         for t in range(0,TimeSteps):
             I_s = 0
             # <r>(t) = <r>0 + B*sin(2*pai*frequency*t)
@@ -515,8 +520,10 @@ def COMSM2127(STDP_Mode):
                     S[i] = S[i] + 0.5
                     # print("Pre_Spike")
                     # Spikes_Counts[i] += 1
-                    if i == example_pre_index and t > 1079999:
-                        Pre_Neuron_Spikes.append(t+1)
+                    if t <80000: #first 20 seconds
+                        (Pre_Neuron_Spikes_20s[i]).append(t+1)
+                    if t >799999: #last 100 seconds
+                        (Pre_Neuron_Spikes_200s[i]).append(t+1)
                     if STDP_Mode:
                         # Store the Pre Spike time
                         Recent_Pre_Spikes[i] = t
@@ -537,8 +544,10 @@ def COMSM2127(STDP_Mode):
                 V_new = V_reset
                 Recent_Post_Spike = t
                 Spike_Count +=1
-                if t > 1079999:
-                    Post_Neuron_Spikes.append(t+1)
+                if t < 80000:
+                    Post_Neuron_Spikes_20s.append(t+1)
+                if t > 799999:
+                    Post_Neuron_Spikes_200s.append(t+1)
                 # print("Post Spike!!")
                 if STDP_Mode:
                     for p in range(0,40):
@@ -551,19 +560,56 @@ def COMSM2127(STDP_Mode):
             V.append(V_new)
         
             # x, y = np.random.randn(2, 100)
-        diff = []
-        for v in Pre_Neuron_Spikes:
-                for k in Post_Neuron_Spikes:
-                    diff.append(int(v-k))
-        print(len(diff))
+        diff_20s = []
+        diff_200s = []
+        for index in range(0,40,1):
+            find = Pre_Neuron_Spikes_20s[index]
+            for v in find:
+                for k in Post_Neuron_Spikes_20s:
+                    deta = (v-k)/4.00
+                    if deta < 50 or deta>-50: 
+                        diff_20s.append(int(deta))
+        for index in range(0,40,1):
+            find = Pre_Neuron_Spikes_200s[index]
+            for v in find:
+                for k in Post_Neuron_Spikes_200s:
+                    deta = (v-k)/4.00
+                    if deta < 50 or deta>-50: 
+                        diff_200s.append(int(deta))
+        region = []
+
+        for index2 in range(-50,51,1):
+            region.append(index2)
+        
+        hist20s, bins = np.histogram(diff_20s,region)
+        hist200s, bins2 = np.histogram(diff_200s,region)
+        # for v in Pre_Neuron_Spikes:
+        #         for k in Post_Neuron_Spikes:
+        #             diff.append(int(v-k))
+        print(len(diff_20s))
+        print("his: ",(hist20s))
+        print("BIns: ",len(bins))
+        X = range(-49,51,1)
         title = "Cross-correlogram (STDP: on)"
         plt.figure()
-        plt.hist(diff, bins=50, histtype='bar')
+        plt.bar([i - 0.4 for i in X], hist20s/N,width=0.4,color = 'r',label = "Begin 20s")
+        plt.bar([i + 0.4 for i in X], hist200s/N,width=0.4,color = 'g',label = "last 100s")
         plt.title(title)
+        plt.legend()
         plt.ylabel("coefficient")
-        plt.xlabel("0.25ms")
+        plt.xlabel("time/ms")
         # plt.savefig('q4_cross_corr_off')
-        plt.show()        
+
+
+
+        # plt.show()
+
+        # plt.title(title)
+        # plt.legend()
+        # plt.ylabel("coefficient")
+        # plt.xlabel("time/ms")
+        # plt.savefig('q4_cross_corr_off')
+        plt.show()    
         # Calculate the integration
 if __name__ == '__main__':
     # Question2_With_STDP_On
@@ -788,5 +834,5 @@ if __name__ == '__main__':
     # plt.show()
     '''
     # COMSM2127 Question
-    COMSM2127(False)
+    COMSM2127(True)
 # %%
