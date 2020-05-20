@@ -69,8 +69,8 @@ def Question_2(Es):
             V1_new = V1_0 + Deta_t*((EL - V1_0 + RmIe + Rmgs*(Es - V1_0)*s1) / tau_m )
             V2_new = V2_0 + Deta_t*((EL - V2_0 + RmIe + Rmgs*(Es - V2_0)*s2) / tau_m )
             # v2 = ((1 - (d_t/tau_m)) * v2_old) + (((leak_pot + rmie) * d_t) / tau_m) + (((rmgs * d_t) / tau_m) * s2 * (e_s - v2_old))
-            s1 = s1*Deta_t/tau_s
-            s2 = s2*Deta_t/tau_s
+            s1 = s1-s1*Deta_t/tau_s
+            s2 = s2-s2*Deta_t/tau_s
             if (V1_new > Vth):
                 V1_new = V_reset
                 s2 += Deta_s
@@ -183,7 +183,10 @@ if __name__ == '__main__':
 #%%  Question1
     # V1,T1 = Question_1()
     # plt.plot(range(0,T1),V1,'g')
-    # plt.savefig('./coursework3/graphs/Question2.png')
+    # plt.title("Integrate and fire model")
+    # plt.xlabel("Time: 0.25ms total 1s")
+    # plt.ylabel("Voltage / v")
+    # plt.savefig('./coursework3/graphs/Question1.png')
     # plt.show()
 #%% Question2
     # Question_2(0)
@@ -193,7 +196,7 @@ if __name__ == '__main__':
 # Ie = (Vt-EL)/Rm
 # Ie = 3nA
 # 2. 1nA lower than the minimal Ie
-    # COMSM2127_2()
+    COMSM2127_2()
 # 3. Calculate Steps:
     # COMSM2127_3()
     print('None')
