@@ -188,9 +188,10 @@ def Question_2_essential(STDP_Mode,Inuput_Rate):
                 Spike_Average.append(Spike_Count/Spike_Average_bin)
                 # print("Spike_Average",Spike_Average)
                 Spike_Count = 0
-            if t > 1080000:
+            if t > 800000:
                 g_average.append(np.mean(g))
         g_average_all = (np.array(g_average)).mean()
+        Spike_Average = np.array(Spike_Average)
         return g,Spike_Average,g_average_all
         # print("Spike_Average is ",Spike_Average)
         # print("g_average: ",g_average)
@@ -613,10 +614,10 @@ def COMSM2127(STDP_Mode):
         # Calculate the integration
 if __name__ == '__main__':
     # Question2_With_STDP_On
-    T_A = 5
+    T_A = 3
     g_average = []
     STDP_mean_g = 2.0435e-9
-    '''
+    
     for average_t in range(0,T_A):
         print("STDP_ON_Times: ",average_t)
         if average_t == 0:
@@ -628,13 +629,18 @@ if __name__ == '__main__':
             Spike_Average = np.vstack((Spike_Average,Spike_Average_T))
             g_average.append(g_average_T)
     print(g_average)
-    g_average_mean = np.mean(g_average)
-    g = G.mean(axis = 0)
-    print("STDP_g_average: ",g_average_mean)
+    if T_A == 1:
+        g_average_mean = g_average
+        Spike_Average_mean = Spike_Average
+        g = G
+    else:
+        g_average_mean = np.mean(g_average)
+        g = G.mean(axis = 0)
+    # print("STDP_g_average: ",g_average_mean)
     # 
-    Spike_Average_mean = Spike_Average.mean(axis = 0)
+        Spike_Average_mean = Spike_Average.mean(axis = 0)
     Steady_average_fir_rate = np.append(Spike_Average_mean[-3:-1],Spike_Average_mean[-1])
-    print("STDP_Steady_average_fir_rate: ",Steady_average_fir_rate.mean())
+    # print("STDP_Steady_average_fir_rate: ",Steady_average_fir_rate.mean())
     # The result is about 0.5Hz
     # 
     # Plot some figure
@@ -644,17 +650,17 @@ if __name__ == '__main__':
     plt.ylabel("Frequency")
     plt.title("Steady-State Synaptic  Distribution")
     # plt.show()
-    plt.savefig('./coursework3/graphs/PartB_Question2_STDP_Average_g_6_times.png')
+    plt.savefig('./coursework3/graphs/PartB_Question2_STDP_Average_g_1_times.png')
 
-    plt.plot(range(0,int(300/10)),Spike_Average.mean(axis = 0),'g')
+    plt.plot(range(0,int(300/10)),Spike_Average_mean,'g')
     plt.title("Spike rate with 10s bin")
     plt.xlabel("Time/s 300s total")
     plt.ylabel("Counts number")
-    plt.savefig('./coursework3/graphs/PartB_Question2_STDP_Average_Fire_Rate6_times.png')
+    plt.savefig('./coursework3/graphs/PartB_Question2_STDP_Average_Fire_Rate_1_times.png')
     # plt.show()
     print (None)
 
-    '''
+    
     
     '''
     
@@ -834,5 +840,5 @@ if __name__ == '__main__':
     # plt.show()
     '''
     # COMSM2127 Question
-    COMSM2127(True)
+    # COMSM2127(True)
 # %%
