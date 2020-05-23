@@ -340,7 +340,7 @@ def Question_4_essential(STDP_Mode,B):
         Rm = 100*MO
         Ie = 0
         N = 40
-        Recent_Post_Spike = -1000
+        Recent_Post_Spike = -100
     # Synapses
         tau_s = 2*ms
         gi = 4*nS
@@ -464,7 +464,7 @@ def COMSM2127(STDP_Mode):
         Rm = 100*MO
         Ie = 0
         N = 40
-        Recent_Post_Spike = -1500
+        Recent_Post_Spike = 0
     # Synapses
         tau_s = 2*ms
         gi = 4*nS
@@ -593,8 +593,8 @@ def COMSM2127(STDP_Mode):
         X = range(-49,51,1)
         title = "Cross-correlogram (STDP: on)"
         plt.figure()
-        plt.bar([i - 0.4 for i in X], hist20s/N,width=0.4,color = 'r',label = "Begin 20s")
-        plt.bar([i + 0.4 for i in X], hist200s/N,width=0.4,color = 'g',label = "last 100s")
+        plt.bar([i - 0.4 for i in X], (hist20s/N)/hist20s[50],width=0.4,color = 'r',label = "Begin 20s")
+        plt.bar([i + 0.4 for i in X], (hist200s/N)/hist200s[50],width=0.4,color = 'g',label = "last 100s")
         plt.title(title)
         plt.legend()
         plt.ylabel("coefficient")
@@ -612,12 +612,164 @@ def COMSM2127(STDP_Mode):
         # plt.savefig('q4_cross_corr_off')
         plt.show()    
         # Calculate the integration
+
+def COMSM2127_2(STDP_Mode):
+    # Pre-Setting
+        B = 0 # 0Hz
+    # Units
+        ms = 0.001
+        mv = 0.001
+        MO = 1.0e6
+        nA = 1.0e-9
+        nS = 1.0e-9
+    # Neuron Param
+        tau_m = 10*ms
+        EL = -65*mv
+        V_reset = -65*mv
+        Vth = -50*mv
+        Rm = 100*MO
+        Ie = 0
+        N = 40
+        Recent_Post_Spike = -1000
+    # Synapses
+        tau_s = 2*ms
+        gi = 4*nS
+        ga = 2.08*nS
+        Es = 0
+        Deta_s = 0.5
+        # 40 incoming synapses
+        S = np.zeros(N)
+        Spikes_Counts = np.zeros(N)
+        Recent_Pre_Spikes = np.zeros(N)
+        Deta_t = 0.25*ms
+        # r_ini = Inuput_Rate #15 Hz
+    # SDTP par
+        A_plus = 0.2*nS
+        A_minus = 0.25*nS
+        tau_plus = 20*ms
+        tau_minus = 20*ms
+        if STDP_Mode:
+            g = np.full(N,gi)
+        else:
+            g = np.full(N,gi)
+        # Calculate the Time interval
+        Runtime = 300
+        TimeSteps = math.ceil(Runtime/Deta_t)
+        print("TimeSteps: ", TimeSteps)
+        V = []
+        V_old = V_reset
+        print("The g_i is : ",g)
+        # Question4_Par
+        freq = 10 # 10Hz
+        r_0 = 15 # 20Hz
+        # Pre-synaptic neurons N:
+        Spike_Count = 0
+        # example_pre_index = 17
+        Pre_Neuron_Spikes_20s = []
+        Pre_Neuron_Spikes_200s = []
+        for example in range(0,N,1):
+            Pre_Neuron_Spikes_20s.append([])
+            Pre_Neuron_Spikes_200s.append([])
+        Post_Neuron_Spikes_20s = []
+        Post_Neuron_Spikes_200s = []
+        for t in range(0,TimeSteps):
+            I_s = 0
+            # <r>(t) = <r>0 + B*sin(2*pai*frequency*t)
+            r_ini = r_0 + B * math.sin(2*(math.pi)*freq*((t+1)*Deta_t))
+            # Apply a possion process use random function
+            # I_s = Rm*(Es - V_old)*np.sum(S*g).all()
+            for it in range(0,40):
+                I_s += Rm*(Es - V_old)*(S[it]*g[it])
+            for i in range(0,40):
+                rand = random.uniform(0,1)
+                # Spike occures
+                if rand < Deta_t*r_ini:
+                    S[i] = S[i] + 0.5
+                    # print("Pre_Spike")
+                    # Spikes_Counts[i] += 1
+                    if t <80000: #first 20 seconds
+                        (Pre_Neuron_Spikes_20s[i]).append(t/4)
+                    if t >799999: #last 100 seconds
+                        (Pre_Neuron_Spikes_200s[i]).append(t/4)
+                    if STDP_Mode:
+                        # Store the Pre Spike time
+                        Recent_Pre_Spikes[i] = t
+                        STDP_Deta_t = (Recent_Post_Spike - Recent_Pre_Spikes[i])
+                        # if STDP_Deta_t <= 0:
+                        g[i] = g[i] - A_minus * math.exp(-abs((STDP_Deta_t)*Deta_t)/tau_minus)
+                        if g[i] < 0:
+                            g[i] = 0
+                # Spike not occures
+                else:
+                    S[i] = S[i]-S[i]*Deta_t/tau_s
+            # Update The neuron:
+        # Post-Synaptic neurons
+            # I_s = Rm*(Es - V_old)*np.sum(S*g)
+            V_new = V_old + Deta_t*((EL - V_old + Rm*Ie+I_s) / tau_m)
+            # If there is a spike and update the V value
+            if V_new > Vth:
+                V_new = V_reset
+                Recent_Post_Spike = t
+                Spike_Count +=1
+                if t < 80000:
+                    Post_Neuron_Spikes_20s.append(t/4)
+                if t > 799999:
+                    Post_Neuron_Spikes_200s.append(t/4)
+                # print("Post Spike!!")
+                if STDP_Mode:
+                    for p in range(0,40):
+                        STDP_Deta_t = (Recent_Post_Spike - Recent_Pre_Spikes[i])
+                        # if STDP_Deta_t > 0:
+                        g[p] = g[p] + A_plus * math.exp(-abs((STDP_Deta_t)*Deta_t)/tau_plus)
+                        if g[p] > (4*nS):
+                            g[p] = 4*nS
+            V_old = V_new
+            V.append(V_new)
+        
+            # x, y = np.random.randn(2, 100)
+        diff_20s = [0]*101
+        diff_200s = [0]*101
+        Post_Neuron_Spikes_20s = np.array(Post_Neuron_Spikes_20s)
+        Post_Neuron_Spikes_200s =  np.array(Post_Neuron_Spikes_200s)
+        X_axis = np.arange(-50,51,1)
+        for index in range(0,40,1):
+            for Target_Spike20 in Pre_Neuron_Spikes_20s[index]:
+                for X_index in range(1,len(X_axis),1):
+                    shift20 = Target_Spike20 - Post_Neuron_Spikes_20s
+                    count = len(shift20[(shift20>(X_axis[X_index-1])) & (shift20<(X_axis[X_index]))])
+                    diff_20s[X_index-1] +=count
+        diff_20s = np.array(diff_20s)/N
+        # plt.figure()
+        # plt.bar(X_axis,diff_20s,width=0.4,color = 'r',label = "Begin 20s")
+        # plt.show()
+
+        X_axis = np.arange(-50,51,1)
+        for index in range(0,40,1):
+            for Target_Spike200 in Pre_Neuron_Spikes_200s[index]:
+                for X_index in range(1,len(X_axis),1):
+                    shift200 = Target_Spike200 - Post_Neuron_Spikes_200s
+                    count = len(shift200[(shift200>(X_axis[X_index-1])) & (shift200<(X_axis[X_index]))])
+                    diff_200s[X_index-1] +=count
+        diff_200s = np.array(diff_200s)/N
+        # plt.figure()
+        # plt.bar(X_axis,diff_200s,width=0.4,color = 'r',label = "Last 100s")
+        # plt.show()
+        return diff_20s,diff_200s
+        # plt.bar([i - 0.2 for i in X_axis],diff_20s,width=0.2,color = 'r',label = "Begin 20s")
+        # plt.bar([i + 0.2 for i in X_axis],diff_200s,width=0.2,color = 'g',label = "last 100s")
+        # plt.title('cross_correlogram')
+        # plt.legend()
+        # plt.ylabel("coefficient")
+        # plt.xlabel("time/ms")
+        # plt.show()
+
+        # Calculate the integration
 if __name__ == '__main__':
     # Question2_With_STDP_On
     T_A = 3
     g_average = []
     STDP_mean_g = 2.0435e-9
-    
+    '''
     for average_t in range(0,T_A):
         print("STDP_ON_Times: ",average_t)
         if average_t == 0:
@@ -660,7 +812,7 @@ if __name__ == '__main__':
     # plt.show()
     print (None)
 
-    
+    '''
     
     '''
     
@@ -826,7 +978,7 @@ if __name__ == '__main__':
             B_20_hism_T = Question_4_essential(True,20)
             B_20_hism = np.vstack((B_20_hism,B_20_hism_T))
     if T_A == 1:
-        B_20_hism = B_20_hism
+        B_20_hism_mean = B_20_hism
     else:
         B_20_hism_mean = B_20_hism.mean(axis = 0)
 
@@ -840,5 +992,34 @@ if __name__ == '__main__':
     # plt.show()
     '''
     # COMSM2127 Question
-    # COMSM2127(True)
+    # COMSM2127_2(True)
+
+    for average_t in range(0,T_A):
+        if average_t == 0:
+            Diff_20s,Diff_200s = COMSM2127_2(True)
+        else:
+            Diff_20s_T,Diff_200s_T = COMSM2127_2(True)
+            Diff_20s = np.vstack((Diff_20s,Diff_20s_T))
+            Diff_200s = np.vstack((Diff_200s,Diff_200s_T))
+    if T_A == 1:
+        M_Diff_20s = Diff_20s
+        M_Diff_200s = Diff_200s
+    else:
+        M_Diff_20s = Diff_20s.mean(axis = 0)
+        M_Diff_200s = Diff_200s.mean(axis = 0)
+    # plt.figure()
+    # plt.bar(X_axis,diff_20s,width=0.4,color = 'r',label = "Begin 20s")
+    # plt.show()
+
+    # plt.figure()
+    # plt.bar(X_axis,diff_200s,width=0.4,color = 'r',label = "Last 100s")
+    # plt.show()
+    X_axis = np.arange(-50,51,1)
+    plt.bar([i - 0.2 for i in X_axis],M_Diff_20s,width=0.2,color = 'r',label = "Begin 20s")
+    plt.bar([i + 0.2 for i in X_axis],M_Diff_200s,width=0.2,color = 'g',label = "last 100s")
+    plt.title('cross_correlogram')
+    plt.legend()
+    plt.ylabel("coefficient")
+    plt.xlabel("time/ms")
+    plt.show()
 # %%

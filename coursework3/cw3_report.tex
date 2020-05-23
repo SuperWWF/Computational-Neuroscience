@@ -172,8 +172,14 @@ The probability is variant, When the post-protrusion is activated, the frequentl
 \newpage
 \subsection*{COMSM2127}
 The plot is like the bell shape with the tallest in the middle, decreasing on both sides.
+The figure 16 shows cross-correlogram in the start 20s and last 100s. The value of last 100 seconds is obvious smaller than the beginning 20s.
+The firing rate declines with time, and is stable to around 1Hz, it means that postsynaptic  triggers fewer times. So that the total counts for the same interval 
+(such as for $\Delta t$ = 0). And in STDP mode, the group of synaptic inputs with the strongest correlations ‘wins’, at the beginning, these synaptics nearly have the same
+correlations, it makes the value of $\Delta t$ = 0 largest. But with the simulation just some synaptics win, so that the curve has some same value at around zero.
+And the overall value of cross-correlogram is decreased, because $V_{-} > V_{+}$, the total weight goes down.
+
 \begin{center} 
-  \includegraphics[width=10cm]{graphs/ParB_Cmos2.png}
+  \includegraphics[width=10cm]{graphs/ParB_Cmos4.png}
   \captionof{figure}{cross-correlogram for both cases (start and end of the simulation) }
 \end{center}
 
