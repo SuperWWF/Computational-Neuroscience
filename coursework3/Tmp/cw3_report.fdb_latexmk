@@ -1,6 +1,6 @@
 # Fdb version 3
-["pdflatex"] 1590185527 "d:/Document/GitHub/Computational-Neuroscience/coursework3/cw3_report.tex" "Tmp/cw3_report.pdf" "cw3_report" 1590185530
-  "Tmp/cw3_report.aux" 1590185530 2242 db2c9c5887664574444fcfb55dfc9b4b "pdflatex"
+["pdflatex"] 1590400782 "d:/Document/GitHub/Computational-Neuroscience/coursework3/cw3_report.tex" "Tmp/cw3_report.pdf" "cw3_report" 1590400787
+  "Tmp/cw3_report.aux" 1590400786 2242 db2c9c5887664574444fcfb55dfc9b4b "pdflatex"
   "c:/texlive/2019/texmf-dist/fonts/map/fontname/texfonts.map" 1573429164 3332 103109f5612ad95229751940c61aada0 ""
   "c:/texlive/2019/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1573427419 1004 54797486969f23fa377b128694d548df ""
   "c:/texlive/2019/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1573427419 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -155,8 +155,8 @@
   "c:/texlive/2019/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1573433254 4741432 e3a6c7d0bdc024d63c43cccde1b22f10 ""
   "c:/texlive/2019/texmf-var/web2c/pdftex/pdflatex.fmt" 1573433453 4289854 1e7c48bf27e98e4fed288eb911a562c6 ""
   "c:/texlive/2019/texmf.cnf" 1573433222 673 4ae7b2f49cee444c5343a45b5d0f169c ""
-  "cw3_report.tex" 1590185526 7720 f04190e50bf890767fefa3bc26270287 ""
-  "d:/Document/GitHub/Computational-Neuroscience/coursework3/cw3_report.tex" 1590185526 7720 f04190e50bf890767fefa3bc26270287 ""
+  "cw3_report.tex" 1590400785 7720 e5eda38ee90690b595612c790125eda6 ""
+  "d:/Document/GitHub/Computational-Neuroscience/coursework3/cw3_report.tex" 1590400785 7720 e5eda38ee90690b595612c790125eda6 ""
   "graphs/COMS2127_2.png" 1588525649 20551 2fe560e7fb5c5aa0b2d1eb24ffa7ff73 ""
   "graphs/COMS2127_3.png" 1588527653 22326 51ad867ab75782d9a699c494221ca3d0 ""
   "graphs/ParB_Cmos4.png" 1590181963 19404 cbc47ff6b176040c6d489e8fb2f695aa ""
@@ -174,6 +174,6 @@
   "graphs/Question2_Excitatory.png" 1589817869 64943 9a1997a07d0788bdcf84267f86276029 ""
   "graphs/Question2_Inhibitory.png" 1589817869 63457 8254544cc651828beec5b41b73ef8679 ""
   (generated)
-  "Tmp/cw3_report.pdf"
   "Tmp/cw3_report.log"
+  "Tmp/cw3_report.pdf"
   "Tmp/cw3_report.aux"
