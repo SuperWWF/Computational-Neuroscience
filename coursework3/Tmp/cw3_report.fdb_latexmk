@@ -1,6 +1,6 @@
 # Fdb version 3
-["pdflatex"] 1590400782 "d:/Document/GitHub/Computational-Neuroscience/coursework3/cw3_report.tex" "Tmp/cw3_report.pdf" "cw3_report" 1590400787
-  "Tmp/cw3_report.aux" 1590400786 2242 db2c9c5887664574444fcfb55dfc9b4b "pdflatex"
+["pdflatex"] 1590701071 "d:/Document/GitHub/Computational-Neuroscience/coursework3/cw3_report.tex" "Tmp/cw3_report.pdf" "cw3_report" 1590701075
+  "Tmp/cw3_report.aux" 1590701074 2242 db2c9c5887664574444fcfb55dfc9b4b "pdflatex"
   "c:/texlive/2019/texmf-dist/fonts/map/fontname/texfonts.map" 1573429164 3332 103109f5612ad95229751940c61aada0 ""
   "c:/texlive/2019/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1573427419 1004 54797486969f23fa377b128694d548df ""
   "c:/texlive/2019/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1573427419 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -155,12 +155,12 @@
   "c:/texlive/2019/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1573433254 4741432 e3a6c7d0bdc024d63c43cccde1b22f10 ""
   "c:/texlive/2019/texmf-var/web2c/pdftex/pdflatex.fmt" 1573433453 4289854 1e7c48bf27e98e4fed288eb911a562c6 ""
   "c:/texlive/2019/texmf.cnf" 1573433222 673 4ae7b2f49cee444c5343a45b5d0f169c ""
-  "cw3_report.tex" 1590400785 7720 e5eda38ee90690b595612c790125eda6 ""
-  "d:/Document/GitHub/Computational-Neuroscience/coursework3/cw3_report.tex" 1590400785 7720 e5eda38ee90690b595612c790125eda6 ""
+  "cw3_report.tex" 1590698347 7722 6e8d96c6c51453c39f9cb7b47ce4feca ""
+  "d:/Document/GitHub/Computational-Neuroscience/coursework3/cw3_report.tex" 1590698347 7722 6e8d96c6c51453c39f9cb7b47ce4feca ""
   "graphs/COMS2127_2.png" 1588525649 20551 2fe560e7fb5c5aa0b2d1eb24ffa7ff73 ""
   "graphs/COMS2127_3.png" 1588527653 22326 51ad867ab75782d9a699c494221ca3d0 ""
   "graphs/ParB_Cmos4.png" 1590181963 19404 cbc47ff6b176040c6d489e8fb2f695aa ""
-  "graphs/PartB_Questio4_B_0Hz.png" 1588762796 19373 c93d5380a0c8376cf5de1247a634132d ""
+  "graphs/PartB_Questio4_B_0Hz_2.png" 1590698070 19372 a881bdd667e791afa9157d2210b430f0 ""
   "graphs/PartB_Questio4_B_20Hz.png" 1588764566 17318 fc3fa4f2fa0e99bb1a66d5dfa1a99182 ""
   "graphs/PartB_Question1.png" 1588607053 64854 1bf32b1a6834b06c3c6dfb747ab8414d ""
   "graphs/PartB_Question2_STDP_Average_Fire_Rate.png" 1588672069 23186 04b23c61ecf3eac8540875ae665fb88e ""
@@ -169,11 +169,11 @@
   "graphs/PartB_Question3_10_20Hz_SDTP_Off.png" 1588715506 28224 cab643892cce8b8593309c2cdd422e41 ""
   "graphs/PartB_Question3_10_20Hz_SDTP_On.png" 1588714342 27293 80d097283540f120fd1ede560aa869cd ""
   "graphs/PartB_Question3_20Hz_hism.png" 1588718183 18861 5cd1cabed393fdf92ef4df0af3e7fe49 ""
-  "graphs/PartB_Question4_mean_g_std_r.png" 1588761761 31860 0b11aedd98b091a32be26d3c611e6341 ""
+  "graphs/PartB_Question4_mean_g_std_r.png" 1590701069 38483 fd0cd5101852e1ac96867ca8cf34e5ad ""
   "graphs/Question1.png" 1589814976 42315 699f321be18f4fe11efafaaf552dc2c2 ""
   "graphs/Question2_Excitatory.png" 1589817869 64943 9a1997a07d0788bdcf84267f86276029 ""
   "graphs/Question2_Inhibitory.png" 1589817869 63457 8254544cc651828beec5b41b73ef8679 ""
   (generated)
   "Tmp/cw3_report.log"
-  "Tmp/cw3_report.pdf"
   "Tmp/cw3_report.aux"
+  "Tmp/cw3_report.pdf"
